@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 
-const { uuid } = require("uuidv4");
+const {v4} = require("uuid");
 
 const app = express();
 
@@ -18,7 +18,7 @@ app.post("/repositories", (request, response) => {
   const { title, url, techs } = request.body;
 
   const repository = {
-    id:uuid(),
+    id: v4(),
     title,
     url,
     techs,
@@ -43,11 +43,14 @@ app.put("/repositories/:id", (request, response) => {
     });
   }
 
+  const { likes } = repositories[repositoryIndex];
+
   const repository = {
     id,
     title,
     url, 
-    techs
+    techs,
+    likes
   }
 
   repositories[repositoryIndex] = repository;
@@ -82,7 +85,7 @@ app.post("/repositories/:id/like", (request, response) => {
     });
   }
 
-  repositories[repositoryIndex].likes ++;
+  repositories[repositoryIndex].likes++;
 
   return response.json(repositories[repositoryIndex]);
 
